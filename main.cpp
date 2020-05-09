@@ -494,8 +494,18 @@ int main()
     FloatType ft(4.5f);
     DoubleType dt(101.101);
     IntType it(9);
+
+    std::cout << "ft's initial value is: " << *ft.value << std::endl;
+    std::cout << "dt's initial value is: " << *dt.value << std::endl;
+    std::cout << "it's initial value is: " << *it.value << std::endl;
+
+    std::cout << "Adding 1 to it, then multiplying that by dt results in: " << *it.add(1).multiply(dt).value << std::endl;
+
+    std::cout << "Subtracting dt from ft, then dividing that by it results in: " << *ft.subtract(dt).divide(it).value << std::endl;
+
+    std::cout << "Dividing dt by ft, then adding it results in: " << *dt.divide(ft).add(it).value << std::endl;
     
-    /*  PART 1 
+    /*  PART 1 STUFF
     auto resultFt = ft.add(1.20f, 6.78f);
     std::cout << "Result of ft.add(): " << resultFt << std::endl;
 
@@ -534,8 +544,6 @@ int main()
     resultIt = it.divide(48, 8);
     std::cout << "Result of it.divide(): " << resultIt << std::endl;
     */
-
-    std::cout << "Testing IntType: " << *it.add(1).multiply(2).value << std::endl;
 
     std::cout << "good to go!" << std::endl;
 }
