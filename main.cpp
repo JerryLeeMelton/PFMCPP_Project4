@@ -14,15 +14,24 @@ New/This/Pointers/References conclusion
          on the heap without leaking, without using smart pointers. 
  */
 
+struct A {};
 
+struct HeapA
+{
+    A* a;
 
+    HeapA() :
+    a(new A)
+    {
 
+    }
 
-
-
-
-
-
+    ~HeapA()
+    {
+        delete a;
+        a = nullptr;
+    }
+};
 
  /*
  1) Edit your 3 structs so that they own a heap-allocated primitive type without using smart pointers  
@@ -64,119 +73,439 @@ send me a DM to check your pull request
  Wait for my code review.
  */
 
+#include <iostream>
 
-
+struct DoubleType;
+struct IntType;
 
 struct FloatType
 {
-    float add(float lhs, float rhs);
-    float subtract(float lhs, float rhs);
-    float multiply(float lhs, float rhs);
-    float divide(float lhs, float rhs);
+    float* value;
+
+    FloatType(float i);
+    ~FloatType();
+    
+    FloatType& add(float valueToAdd);
+    FloatType& add(const FloatType& ft);
+    FloatType& add(const DoubleType& dt);
+    FloatType& add(const IntType& it);
+
+    FloatType& subtract(float valueToSubtract);
+    FloatType& subtract(const FloatType& ft);
+    FloatType& subtract(const DoubleType& dt);
+    FloatType& subtract(const IntType& it);
+
+    FloatType& multiply(float valueToMultipyBy);
+    FloatType& multiply(const FloatType& ft);
+    FloatType& multiply(const DoubleType& dt);
+    FloatType& multiply(const IntType& it);
+
+    FloatType& divide(float valueToDivideBy);
+    FloatType& divide(const FloatType& ft);
+    FloatType& divide(const DoubleType& dt);
+    FloatType& divide(const IntType& it);
 };
 
-float FloatType::add(float lhs, float rhs)
+FloatType::FloatType(float i) : 
+value(new float(i))
 {
-    return lhs + rhs;
+
 }
 
-float FloatType::subtract(float lhs, float rhs)
+FloatType::~FloatType()
 {
-    return lhs - rhs;
+    delete value;
+    value = nullptr;
 }
 
-float FloatType::multiply(float lhs, float rhs)
+
+FloatType& FloatType::add(float valueToAdd)
 {
-    return lhs * rhs;
+    *value += valueToAdd;
+    return *this;
 }
 
-float FloatType::divide(float lhs, float rhs)
+
+FloatType& FloatType::subtract(float valueToSubtract)
 {
-    if (rhs == 0.f)
+    *value -= valueToSubtract;
+    return *this;
+}
+
+FloatType& FloatType::multiply(float valueToMultiplyBy)
+{
+    *value *= valueToMultiplyBy;
+    return *this;
+}
+
+FloatType& FloatType::divide(float valueToDivideBy)
+{
+    if (valueToDivideBy == 0.f)
     {
         std::cout << "Warning! Dividing float by zero!" << std::endl;
     }
 
-    return lhs / rhs;
+    *value /= valueToDivideBy;
+    return *this;
 }
 
 
 struct DoubleType
 {
-    double add(double lhs, double rhs);
-    double subtract(double lhs, double rhs);
-    double multiply(double lhs, double rhs);
-    double divide(double lhs, double rhs);
+    double* value;
+
+    DoubleType(double d);
+    ~DoubleType();
+
+    DoubleType& add(double valueToAdd);
+    DoubleType& add(const FloatType& valueToAdd);
+    DoubleType& add(const DoubleType& valueToAdd);
+    DoubleType& add(const IntType& valueToAdd);
+
+    DoubleType& subtract(double valueToSubtract);
+    DoubleType& subtract(const FloatType& valueToSubtract);
+    DoubleType& subtract(const DoubleType& valueToSubtract);
+    DoubleType& subtract(const IntType& valueToSubtract);
+
+    DoubleType& multiply(double valueToMultipyBy);
+    DoubleType& multiply(const FloatType& valueToMultipyBy);
+    DoubleType& multiply(const DoubleType& valueToMultipyBy);
+    DoubleType& multiply(const IntType& valueToMultipyBy);
+
+    DoubleType& divide(double valueToDivideBy);
+    DoubleType& divide(const FloatType& valueToDivideBy);
+    DoubleType& divide(const DoubleType& valueToDivideBy);
+    DoubleType& divide(const IntType& valueToDivideBy);
 };
 
-double DoubleType::add(double lhs, double rhs)
+DoubleType::DoubleType(double d) :
+value(new double(d))
 {
-    return lhs + rhs;
+    
 }
 
-double DoubleType::subtract(double lhs, double rhs)
+DoubleType::~DoubleType()
 {
-    return lhs - rhs;
+    delete value;
+    value = nullptr;
 }
 
-double DoubleType::multiply(double lhs, double rhs)
+DoubleType& DoubleType::add(double valueToAdd)
 {
-    return lhs * rhs;
+    *value += valueToAdd;
+    return *this;
 }
 
-double DoubleType::divide(double lhs, double rhs)
+
+DoubleType& DoubleType::subtract(double valueToSubtract)
 {
-    if (rhs == 0.0)
+    *value -= valueToSubtract;
+    return *this;
+}
+
+DoubleType& DoubleType::multiply(double valueToMultipyBy)
+{
+    *value *= valueToMultipyBy;
+    return *this;
+}
+
+DoubleType& DoubleType::divide(double valueToDivideBy)
+{
+    if (valueToDivideBy == 0.0)
     {
         std::cout << "Warning! Dividing double by zero!" << std::endl;
     }
 
-    return lhs / rhs;
+    *value /= valueToDivideBy;
+    return *this;
 }
 
 
 struct IntType
 {
-    int add(int lhs, int rhs);
-    int subtract(int lhs, int rhs);
-    int multiply(int lhs, int rhs);
-    int divide(int lhs, int rhs);
+    int* value;
+
+    IntType(int i);
+    ~IntType();
+
+    IntType& add(int valueToAdd);
+    IntType& add(const FloatType& valueToAdd);
+    IntType& add(const DoubleType& valueToAdd);
+    IntType& add(const IntType& valueToAdd);
+
+    IntType& subtract(int valueToSubtract);
+    IntType& subtract(const FloatType& valueToSubtract);
+    IntType& subtract(const DoubleType& valueToSubtract);
+    IntType& subtract(const IntType& valueToSubtract);
+
+    IntType& multiply(int valueToMultipyBy);
+    IntType& multiply(const FloatType& valueToMultipyBy);
+    IntType& multiply(const DoubleType& valueToMultipyBy);
+    IntType& multiply(const IntType& valueToMultipyBy);
+
+    IntType& divide(int valueToDivideBy);
+    IntType& divide(const FloatType& valueToDivideBy);
+    IntType& divide(const DoubleType& valueToDivideBy);
+    IntType& divide(const IntType& valueToDivideBy);
 };
 
-int IntType::add(int lhs, int rhs)
+IntType::IntType(int i) :
+value(new int(i))
 {
-    return lhs + rhs;
+
 }
 
-int IntType::subtract(int lhs, int rhs)
+IntType::~IntType()
 {
-    return lhs - rhs;
+    delete value;
+    value = nullptr;
 }
 
-int IntType::multiply(int lhs, int rhs)
+
+IntType& IntType::add(int valueToAdd)
 {
-    return lhs * rhs;
+    *value += valueToAdd;
+    return *this;
 }
 
-int IntType::divide(int lhs, int rhs)
+
+IntType& IntType::subtract(int valueToSubtract)
 {
-    if (rhs == 0)
+    *value -= valueToSubtract;
+    return *this;
+}
+
+
+IntType& IntType::multiply(int valueToMultipyBy)
+{
+    *value *= valueToMultipyBy;
+    return *this;
+}
+
+
+IntType& IntType::divide(int valueToDivideBy)
+{
+    if (valueToDivideBy == 0)
     {
-        std::cout << "Error! Cannot divide integer by zero!  Returning lhs" << std::endl;
-        return lhs;
+        std::cout << "Error! Cannot divide integer by zero!" << std::endl;
+        return *this;
     }
 
-    return lhs / rhs;
+    *value /= valueToDivideBy;
+    return *this;
 }
 
 
-#include <iostream>
+
+FloatType& FloatType::add(const FloatType& valueToAdd)
+{
+    return add(*valueToAdd.value);
+}
+
+FloatType& FloatType::add(const DoubleType& valueToAdd)
+{
+    return add(static_cast<float>(*valueToAdd.value));
+}
+
+FloatType& FloatType::add(const IntType& valueToAdd)
+{
+    return add(static_cast<float>(*valueToAdd.value));
+}
+
+
+FloatType& FloatType::subtract(const FloatType& valueToSubtract)
+{
+    return subtract(*valueToSubtract.value);
+}
+
+FloatType& FloatType::subtract(const DoubleType& valueToSubtract)
+{
+    return subtract(static_cast<float>(*valueToSubtract.value));
+}
+
+FloatType& FloatType::subtract(const IntType& valueToSubtract)
+{
+    return subtract(static_cast<float>(*valueToSubtract.value));
+}
+
+
+FloatType& FloatType::multiply(const FloatType& valueToMultiplyBy)
+{
+    return multiply(*valueToMultiplyBy.value);
+}
+
+FloatType& FloatType::multiply(const DoubleType& valueToMultiplyBy)
+{
+    return multiply(static_cast<float>(*valueToMultiplyBy.value));
+}
+
+FloatType& FloatType::multiply(const IntType& valueToMultiplyBy)
+{
+    return multiply(static_cast<float>(*valueToMultiplyBy.value));
+}
+
+
+FloatType& FloatType::divide(const FloatType& valueToDivideBy)
+{
+    return divide(*valueToDivideBy.value);
+}
+
+FloatType& FloatType::divide(const DoubleType& valueToDivideBy)
+{
+    return divide(static_cast<float>(*valueToDivideBy.value));
+}
+
+FloatType& FloatType::divide(const IntType& valueToDivideBy)
+{
+    return divide(static_cast<float>(*valueToDivideBy.value));
+}
+
+
+DoubleType& DoubleType::add(const FloatType& valueToAdd)
+{
+    return add(static_cast<double>(*valueToAdd.value));
+}
+
+DoubleType& DoubleType::add(const DoubleType& valueToAdd)
+{
+    return add(*valueToAdd.value);
+}
+
+DoubleType& DoubleType::add(const IntType& valueToAdd)
+{
+    return add(static_cast<double>(*valueToAdd.value));
+}
+
+
+DoubleType& DoubleType::subtract(const FloatType& valueToSubtract)
+{
+    return subtract(static_cast<double>(*valueToSubtract.value));
+}
+
+DoubleType& DoubleType::subtract(const DoubleType& valueToSubtract)
+{
+    return subtract(*valueToSubtract.value);
+}
+
+DoubleType& DoubleType::subtract(const IntType& valueToSubtract)
+{
+    return subtract(static_cast<double>(*valueToSubtract.value));
+}
+
+
+DoubleType& DoubleType::multiply(const FloatType& valueToMultiplyBy)
+{
+    return multiply(static_cast<double>(*valueToMultiplyBy.value));
+}
+
+DoubleType& DoubleType::multiply(const DoubleType& valueToMultiplyBy)
+{
+    return multiply(*valueToMultiplyBy.value);
+}
+
+DoubleType& DoubleType::multiply(const IntType& valueToMultiplyBy)
+{
+    return multiply(static_cast<double>(*valueToMultiplyBy.value));
+}
+
+
+DoubleType& DoubleType::divide(const FloatType& valueToDivideBy)
+{
+    return divide(static_cast<double>(*valueToDivideBy.value));
+}
+
+DoubleType& DoubleType::divide(const DoubleType& valueToDivideBy)
+{
+    return divide(*valueToDivideBy.value);
+}
+
+DoubleType& DoubleType::divide(const IntType& valueToDivideBy)
+{
+    return divide(static_cast<double>(*valueToDivideBy.value));
+}
+
+
+
+IntType& IntType::add(const FloatType& valueToAdd)
+{
+    return add(static_cast<int>(*valueToAdd.value));
+}
+
+IntType& IntType::add(const DoubleType& valueToAdd)
+{
+    return add(static_cast<int>(*valueToAdd.value));
+}
+
+IntType& IntType::add(const IntType& valueToAdd)
+{
+    return add(*valueToAdd.value);
+}
+
+
+IntType& IntType::subtract(const FloatType& valueToSubtract)
+{
+    return subtract(static_cast<int>(*valueToSubtract.value));
+}
+
+IntType& IntType::subtract(const DoubleType& valueToSubtract)
+{
+    return subtract(static_cast<int>(*valueToSubtract.value));
+}
+
+IntType& IntType::subtract(const IntType& valueToSubtract)
+{
+    return subtract(*valueToSubtract.value);
+}
+
+
+IntType& IntType::multiply(const FloatType& valueToMultipyBy)
+{
+    return multiply(static_cast<int>(*valueToMultipyBy.value));
+}
+
+IntType& IntType::multiply(const DoubleType& valueToMultipyBy)
+{
+    return multiply(static_cast<int>(*valueToMultipyBy.value));
+}
+
+IntType& IntType::multiply(const IntType& valueToMultipyBy)
+{
+    return multiply(*valueToMultipyBy.value);
+}
+
+
+IntType& IntType::divide(const FloatType& valueToDivideBy)
+{
+    return divide(static_cast<int>(*valueToDivideBy.value));
+}
+
+IntType& IntType::divide(const DoubleType& valueToDivideBy)
+{
+    return divide(static_cast<int>(*valueToDivideBy.value));
+}
+
+IntType& IntType::divide(const IntType& valueToDivideBy)
+{
+    return divide(*valueToDivideBy.value);
+}
+
 int main()
 {
-    FloatType ft;
-    DoubleType dt;
-    IntType it;
+    FloatType ft(4.5f);
+    DoubleType dt(101.101);
+    IntType it(9);
 
+    std::cout << "ft's initial value is: " << *ft.value << std::endl;
+    std::cout << "dt's initial value is: " << *dt.value << std::endl;
+    std::cout << "it's initial value is: " << *it.value << std::endl;
+
+    std::cout << "Adding 1 to it, then multiplying that by dt results in: " << *it.add(1).multiply(dt).value << std::endl;
+
+    std::cout << "Subtracting dt from ft, then dividing that by it results in: " << *ft.subtract(dt).divide(it).value << std::endl;
+
+    std::cout << "Dividing dt by ft, then adding it results in: " << *dt.divide(ft).add(it).value << std::endl;
+    
+    /*  PART 1 STUFF
     auto resultFt = ft.add(1.20f, 6.78f);
     std::cout << "Result of ft.add(): " << resultFt << std::endl;
 
@@ -214,7 +543,7 @@ int main()
 
     resultIt = it.divide(48, 8);
     std::cout << "Result of it.divide(): " << resultIt << std::endl;
-
+    */
 
     std::cout << "good to go!" << std::endl;
 }
