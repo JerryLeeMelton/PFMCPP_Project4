@@ -75,6 +75,8 @@ send me a DM to check your pull request
 
 #include <iostream>
 
+struct DoubleType;
+struct IntType;
 
 struct FloatType
 {
@@ -84,9 +86,24 @@ struct FloatType
     ~FloatType();
     
     FloatType& add(float valueToAdd);
+    FloatType& add(const FloatType& ft);
+    FloatType& add(const DoubleType& dt);
+    FloatType& add(const IntType& it);
+
     FloatType& subtract(float valueToSubtract);
+    FloatType& subtract(const FloatType& ft);
+    FloatType& subtract(const DoubleType& dt);
+    FloatType& subtract(const IntType& it);
+
     FloatType& multiply(float valueToMultipyBy);
+    FloatType& multiply(const FloatType& ft);
+    FloatType& multiply(const DoubleType& dt);
+    FloatType& multiply(const IntType& it);
+
     FloatType& divide(float valueToDivideBy);
+    FloatType& divide(const FloatType& ft);
+    FloatType& divide(const DoubleType& dt);
+    FloatType& divide(const IntType& it);
 };
 
 FloatType::FloatType(float i) : 
@@ -101,11 +118,13 @@ FloatType::~FloatType()
     value = nullptr;
 }
 
+
 FloatType& FloatType::add(float valueToAdd)
 {
     *value += valueToAdd;
     return *this;
 }
+
 
 FloatType& FloatType::subtract(float valueToSubtract)
 {
@@ -139,9 +158,24 @@ struct DoubleType
     ~DoubleType();
 
     DoubleType& add(double valueToAdd);
+    DoubleType& add(const FloatType& valueToAdd);
+    DoubleType& add(const DoubleType& valueToAdd);
+    DoubleType& add(const IntType& valueToAdd);
+
     DoubleType& subtract(double valueToSubtract);
+    DoubleType& subtract(const FloatType& valueToSubtract);
+    DoubleType& subtract(const DoubleType& valueToSubtract);
+    DoubleType& subtract(const IntType& valueToSubtract);
+
     DoubleType& multiply(double valueToMultipyBy);
+    DoubleType& multiply(const FloatType& valueToMultipyBy);
+    DoubleType& multiply(const DoubleType& valueToMultipyBy);
+    DoubleType& multiply(const IntType& valueToMultipyBy);
+
     DoubleType& divide(double valueToDivideBy);
+    DoubleType& divide(const FloatType& valueToDivideBy);
+    DoubleType& divide(const DoubleType& valueToDivideBy);
+    DoubleType& divide(const IntType& valueToDivideBy);
 };
 
 DoubleType::DoubleType(double d) :
@@ -161,6 +195,7 @@ DoubleType& DoubleType::add(double valueToAdd)
     *value += valueToAdd;
     return *this;
 }
+
 
 DoubleType& DoubleType::subtract(double valueToSubtract)
 {
@@ -194,9 +229,24 @@ struct IntType
     ~IntType();
 
     IntType& add(int valueToAdd);
+    IntType& add(const FloatType& valueToAdd);
+    IntType& add(const DoubleType& valueToAdd);
+    IntType& add(const IntType& valueToAdd);
+
     IntType& subtract(int valueToSubtract);
+    IntType& subtract(const FloatType& valueToSubtract);
+    IntType& subtract(const DoubleType& valueToSubtract);
+    IntType& subtract(const IntType& valueToSubtract);
+
     IntType& multiply(int valueToMultipyBy);
+    IntType& multiply(const FloatType& valueToMultipyBy);
+    IntType& multiply(const DoubleType& valueToMultipyBy);
+    IntType& multiply(const IntType& valueToMultipyBy);
+
     IntType& divide(int valueToDivideBy);
+    IntType& divide(const FloatType& valueToDivideBy);
+    IntType& divide(const DoubleType& valueToDivideBy);
+    IntType& divide(const IntType& valueToDivideBy);
 };
 
 IntType::IntType(int i) :
@@ -211,11 +261,13 @@ IntType::~IntType()
     value = nullptr;
 }
 
+
 IntType& IntType::add(int valueToAdd)
 {
     *value += valueToAdd;
     return *this;
 }
+
 
 IntType& IntType::subtract(int valueToSubtract)
 {
@@ -223,11 +275,13 @@ IntType& IntType::subtract(int valueToSubtract)
     return *this;
 }
 
+
 IntType& IntType::multiply(int valueToMultipyBy)
 {
     *value *= valueToMultipyBy;
     return *this;
 }
+
 
 IntType& IntType::divide(int valueToDivideBy)
 {
@@ -241,6 +295,199 @@ IntType& IntType::divide(int valueToDivideBy)
     return *this;
 }
 
+
+
+FloatType& FloatType::add(const FloatType& valueToAdd)
+{
+    return add(*valueToAdd.value);
+}
+
+FloatType& FloatType::add(const DoubleType& valueToAdd)
+{
+    return add(static_cast<float>(*valueToAdd.value));
+}
+
+FloatType& FloatType::add(const IntType& valueToAdd)
+{
+    return add(static_cast<float>(*valueToAdd.value));
+}
+
+
+FloatType& FloatType::subtract(const FloatType& valueToSubtract)
+{
+    return subtract(*valueToSubtract.value);
+}
+
+FloatType& FloatType::subtract(const DoubleType& valueToSubtract)
+{
+    return subtract(static_cast<float>(*valueToSubtract.value));
+}
+
+FloatType& FloatType::subtract(const IntType& valueToSubtract)
+{
+    return subtract(static_cast<float>(*valueToSubtract.value));
+}
+
+
+FloatType& FloatType::multiply(const FloatType& valueToMultiplyBy)
+{
+    return multiply(*valueToMultiplyBy.value);
+}
+
+FloatType& FloatType::multiply(const DoubleType& valueToMultiplyBy)
+{
+    return multiply(static_cast<float>(*valueToMultiplyBy.value));
+}
+
+FloatType& FloatType::multiply(const IntType& valueToMultiplyBy)
+{
+    return multiply(static_cast<float>(*valueToMultiplyBy.value));
+}
+
+
+FloatType& FloatType::divide(const FloatType& valueToDivideBy)
+{
+    return divide(*valueToDivideBy.value);
+}
+
+FloatType& FloatType::divide(const DoubleType& valueToDivideBy)
+{
+    return divide(static_cast<float>(*valueToDivideBy.value));
+}
+
+FloatType& FloatType::divide(const IntType& valueToDivideBy)
+{
+    return divide(static_cast<float>(*valueToDivideBy.value));
+}
+
+
+DoubleType& DoubleType::add(const FloatType& valueToAdd)
+{
+    return add(static_cast<double>(*valueToAdd.value));
+}
+
+DoubleType& DoubleType::add(const DoubleType& valueToAdd)
+{
+    return add(*valueToAdd.value);
+}
+
+DoubleType& DoubleType::add(const IntType& valueToAdd)
+{
+    return add(static_cast<double>(*valueToAdd.value));
+}
+
+
+DoubleType& DoubleType::subtract(const FloatType& valueToSubtract)
+{
+    return subtract(static_cast<double>(*valueToSubtract.value));
+}
+
+DoubleType& DoubleType::subtract(const DoubleType& valueToSubtract)
+{
+    return subtract(*valueToSubtract.value);
+}
+
+DoubleType& DoubleType::subtract(const IntType& valueToSubtract)
+{
+    return subtract(static_cast<double>(*valueToSubtract.value));
+}
+
+
+DoubleType& DoubleType::multiply(const FloatType& valueToMultiplyBy)
+{
+    return multiply(static_cast<double>(*valueToMultiplyBy.value));
+}
+
+DoubleType& DoubleType::multiply(const DoubleType& valueToMultiplyBy)
+{
+    return multiply(*valueToMultiplyBy.value);
+}
+
+DoubleType& DoubleType::multiply(const IntType& valueToMultiplyBy)
+{
+    return multiply(static_cast<double>(*valueToMultiplyBy.value));
+}
+
+
+DoubleType& DoubleType::divide(const FloatType& valueToDivideBy)
+{
+    return divide(static_cast<double>(*valueToDivideBy.value));
+}
+
+DoubleType& DoubleType::divide(const DoubleType& valueToDivideBy)
+{
+    return divide(*valueToDivideBy.value);
+}
+
+DoubleType& DoubleType::divide(const IntType& valueToDivideBy)
+{
+    return divide(static_cast<double>(*valueToDivideBy.value));
+}
+
+
+
+IntType& IntType::add(const FloatType& valueToAdd)
+{
+    return add(static_cast<int>(*valueToAdd.value));
+}
+
+IntType& IntType::add(const DoubleType& valueToAdd)
+{
+    return add(static_cast<int>(*valueToAdd.value));
+}
+
+IntType& IntType::add(const IntType& valueToAdd)
+{
+    return add(*valueToAdd.value);
+}
+
+
+IntType& IntType::subtract(const FloatType& valueToSubtract)
+{
+    return subtract(static_cast<int>(*valueToSubtract.value));
+}
+
+IntType& IntType::subtract(const DoubleType& valueToSubtract)
+{
+    return subtract(static_cast<int>(*valueToSubtract.value));
+}
+
+IntType& IntType::subtract(const IntType& valueToSubtract)
+{
+    return subtract(*valueToSubtract.value);
+}
+
+
+IntType& IntType::multiply(const FloatType& valueToMultipyBy)
+{
+    return multiply(static_cast<int>(*valueToMultipyBy.value));
+}
+
+IntType& IntType::multiply(const DoubleType& valueToMultipyBy)
+{
+    return multiply(static_cast<int>(*valueToMultipyBy.value));
+}
+
+IntType& IntType::multiply(const IntType& valueToMultipyBy)
+{
+    return multiply(*valueToMultipyBy.value);
+}
+
+
+IntType& IntType::divide(const FloatType& valueToDivideBy)
+{
+    return divide(static_cast<int>(*valueToDivideBy.value));
+}
+
+IntType& IntType::divide(const DoubleType& valueToDivideBy)
+{
+    return divide(static_cast<int>(*valueToDivideBy.value));
+}
+
+IntType& IntType::divide(const IntType& valueToDivideBy)
+{
+    return divide(*valueToDivideBy.value);
+}
 
 int main()
 {
